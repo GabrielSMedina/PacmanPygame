@@ -5,21 +5,20 @@ import cores
 import cenario
 
 pygame.init()
-
+size = 600//30
 tela = pygame.display.set_mode((constantes.LARGURA, constantes.ALTURA), 0)
-pacman = corpo.Pacman_corpo()
-mapa = cenario.Mapa(constantes.ALTURA//30, pacman)
-
-def aceitar_movimento():
+pacman = corpo.Pacman_corpo(size)
+cenario = cenario.Cenario(constantes.ALTURA//30, pacman)
 
 while True:
 
     #Calcula as regras
     pacman.calcular_regras()
+    cenario.calcular_regras()
 
     #Pinta
     tela.fill(cores.PRETO)
-    mapa.pintar(tela)
+    cenario.pintar(tela)
     pacman.pintar(tela)
     pygame.display.update()
     pygame.time.delay(100)

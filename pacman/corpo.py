@@ -1,17 +1,16 @@
 import pygame
 import constantes
 import cores
-import pacman
 
 pygame.init()
 
 class Pacman_corpo:
-    def __init__(self):
+    def __init__(self, size):
         self.coluna = 1
         self.linha = 1
         self.centro_x = constantes.LARGURA/2
         self.centro_y = constantes.ALTURA/2
-        self.tamanho = constantes.ALTURA//30
+        self.tamanho = size
         self.raio = self.tamanho//2
         self.vel_x = constantes.VELOCIDADE
         self.vel_y = constantes.VELOCIDADE
@@ -41,12 +40,6 @@ class Pacman_corpo:
         olho_raio = int(self.raio/10)
         pygame.draw.circle(tela, cores.PRETO, (olho_x, olho_y), olho_raio, 0)
 
-    def calcular_regras(self):
-        col = pacman.pacman.coluna_intencao
-        lin = pacman.pacman.linha_intencao
-        if 0 <= col < 28 and 0 <= lin < 29:
-            pacman.pacman.aceitar_movimento()
-
     def processar_eventos(self, eventos):
         for e in eventos:
             if e.type == pygame.KEYDOWN:
@@ -67,3 +60,7 @@ class Pacman_corpo:
                     self.vel_y = 0
                 if e.key == pygame.K_DOWN:
                     self.vel_y = 0
+
+    def aceitar_movimento(self):
+        self.linha = self.linha_intencao
+        self.coluna = self.coluna_intencao

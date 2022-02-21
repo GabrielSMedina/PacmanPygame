@@ -2,10 +2,11 @@ import pygame
 import constantes
 import cores
 
-class Mapa:
+
+class Cenario:
     def __init__(self, tamanho, pacman):
         self.pacman = pacman
-        self.tamanho  = tamanho
+        self.tamanho = tamanho
         self.matriz = [
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
             [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
@@ -42,16 +43,22 @@ class Mapa:
         for numero_coluna, coluna in enumerate(linha):
             x = numero_coluna * self.tamanho
             y = numero_linha * self.tamanho
-            metade_do_tamanho = self.tamanho//2
+            metade_do_tamanho = self.tamanho // 2
             cor = cores.PRETO
             if coluna == 2:
                 cor = cores.AZUL
             pygame.draw.rect(tela, cor, (x, y, self.tamanho, self.tamanho), 0)
             if coluna == 1:
-                pygame.draw.circle(tela, cores.AMARELO, (x+metade_do_tamanho, y+metade_do_tamanho), self.tamanho//10, 0)
-
+                pygame.draw.circle(tela, cores.AMARELO, (x + metade_do_tamanho, y + metade_do_tamanho),
+                                   self.tamanho // 10, 0)
 
     def pintar(self, tela):
         for numero_linha, linha in enumerate(self.matriz):
             self.pintar_linha(numero_linha, linha, tela)
 
+    def calcular_regras(self):
+        col = self.pacman.coluna_intencao
+        lin = self.pacman.linha_intencao
+        if 0 <= col < 28 and 0 <= lin < 29:
+            if self.matriz[lin][col] != 2:
+                self.pacman.aceitar_movimento()
