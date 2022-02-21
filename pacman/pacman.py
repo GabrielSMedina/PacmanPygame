@@ -5,10 +5,13 @@ import cores
 import cenario
 
 pygame.init()
-size = 600//30
+
 tela = pygame.display.set_mode((constantes.LARGURA, constantes.ALTURA), 0)
-pacman = corpo.Pacman_corpo(size)
+pacman = corpo.Pacman_corpo(constantes.SIZE)
 cenario = cenario.Cenario(constantes.ALTURA//30, pacman)
+"""pontuacao = f'Score: {cenario.pontos}'
+img_txt = constantes.FONTE.render(pontuacao, True, cores.AMARELO)"""
+
 
 while True:
 
@@ -21,7 +24,7 @@ while True:
     cenario.pintar(tela)
     pacman.pintar(tela)
     pygame.display.update()
-    pygame.time.delay(100)
+    pygame.time.delay(constantes.DELAY)
 
 
     #Eventos

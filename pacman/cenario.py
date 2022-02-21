@@ -7,6 +7,7 @@ class Cenario:
     def __init__(self, tamanho, pacman):
         self.pacman = pacman
         self.tamanho = tamanho
+        self.pontos = 0
         self.matriz = [
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
             [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
@@ -39,6 +40,11 @@ class Cenario:
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
         ]
 
+    def pintar_pontos(self, tela):
+        pontos_x = 30 * self.tamanho
+        img_pontos = constantes.FONTE.render(f"Score: {self.pontos}", True, cores.AMARELO)
+        tela.blit(img_pontos, (pontos_x, 50))
+
     def pintar_linha(self, numero_linha, linha, tela):
         for numero_coluna, coluna in enumerate(linha):
             x = numero_coluna * self.tamanho
@@ -55,6 +61,7 @@ class Cenario:
     def pintar(self, tela):
         for numero_linha, linha in enumerate(self.matriz):
             self.pintar_linha(numero_linha, linha, tela)
+        self.pintar_pontos(tela)
 
     def calcular_regras(self):
         col = self.pacman.coluna_intencao
@@ -62,3 +69,6 @@ class Cenario:
         if 0 <= col < 28 and 0 <= lin < 29:
             if self.matriz[lin][col] != 2:
                 self.pacman.aceitar_movimento()
+                if self.matriz[lin][col] == 1:
+                    self.pontos += 1
+                    self.matriz[lin][col] = 0

@@ -1,3 +1,6 @@
+import pygame
+
+pygame.init()
 #CONSTANTES
 VELOCIDADE = 0
 VELOCIDADE_PACMAN = 1
@@ -7,3 +10,8 @@ TAMANHO_PACMAN = 50
 #TAMANHO_TELA
 LARGURA = 800
 ALTURA = 600
+
+#TELA
+DELAY = 100
+FONTE = pygame.font.SysFont("arial", 40, True, False)
+SIZE = 600//30
