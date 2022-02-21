@@ -3,12 +3,15 @@ import constantes
 import corpo
 import cores
 import cenario
+import fantasma
 
 pygame.init()
 
 tela = pygame.display.set_mode((constantes.LARGURA, constantes.ALTURA), 0)
 pacman = corpo.Corpo(constantes.SIZE)
-cenario = cenario.Cenario(constantes.ALTURA // 30, pacman)
+fantasma_1 = fantasma.Fantasma(cores.VERMELHO, constantes.SIZE)
+cenario = cenario.Cenario(constantes.ALTURA // 30, pacman, fantasma_1)
+
 
 while True:
     # Calcula as regras
@@ -19,6 +22,7 @@ while True:
     tela.fill(cores.PRETO)
     cenario.pintar(tela)
     pacman.pintar(tela)
+    fantasma_1.pintar(tela)
     pygame.display.update()
     pygame.time.delay(constantes.DELAY)
 

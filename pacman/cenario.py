@@ -6,9 +6,10 @@ import elementos
 
 class Cenario(elementos.Elementos):
 
-    def __init__(self, tamanho, pacman):
+    def __init__(self, tamanho, pacman, fan):
         self.pacman = pacman
         self.tamanho = tamanho
+        self.fantasma = fan
         self.pontos = 0
         self.matriz = [
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -66,6 +67,7 @@ class Cenario(elementos.Elementos):
         self.pintar_pontos(tela)
 
     def calcular_regras(self):
+        direcoes = self.get_direcoes(self.fantasma.linha, self.fantasma.coluna)
         col = self.pacman.coluna_intencao
         lin = self.pacman.linha_intencao
         if 0 <= col < 28 and 0 <= lin < 29:
@@ -74,6 +76,18 @@ class Cenario(elementos.Elementos):
                 if self.matriz[lin][col] == 1:
                     self.pontos += 1
                     self.matriz[lin][col] = 0
+
+    def get_direcoes(self, linha, coluna):
+        direcoes = []
+        if self.matriz[int(linha - 1)][int(coluna)] != 2:
+            direcoes.append(constantes.CIMA)
+        if self.matriz[int(linha + 1)][int(coluna)]:
+            direcoes.append(constantes.BAIXO)
+        if self.matriz[int(linha)][int(coluna - 1)]:
+            direcoes.append(constantes.ESQUERDA)
+        if self.matriz[int(linha)][int(coluna + 1)]:
+            direcoes.append(constantes.DIREITA)
+        return direcoes
 
     def processar_eventos(self, even):
         for e in even:

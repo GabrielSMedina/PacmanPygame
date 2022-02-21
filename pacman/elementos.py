@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
+
 class Elementos(metaclass=ABCMeta):
     @abstractmethod
     def pintar(self, tela):
