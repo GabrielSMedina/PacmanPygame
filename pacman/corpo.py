@@ -1,17 +1,19 @@
 import pygame
 import constantes
 import cores
+import elementos
 
 pygame.init()
 
-class Pacman_corpo:
+
+class Corpo(elementos.Elementos):
     def __init__(self, size):
         self.coluna = 1
         self.linha = 1
-        self.centro_x = constantes.LARGURA/2
-        self.centro_y = constantes.ALTURA/2
+        self.centro_x = constantes.LARGURA / 2
+        self.centro_y = constantes.ALTURA / 2
         self.tamanho = size
-        self.raio = self.tamanho//2
+        self.raio = self.tamanho // 2
         self.vel_x = constantes.VELOCIDADE
         self.vel_y = constantes.VELOCIDADE
         self.coluna_intencao = self.coluna
@@ -24,20 +26,20 @@ class Pacman_corpo:
         self.centro_y = int(self.linha * self.tamanho + self.raio)
 
     def pintar(self, tela):
-        #Desenhar Pacman
+        # Desenhar Pacman
         pygame.draw.circle(tela, cores.AMARELO, (self.centro_x, self.centro_y), self.raio, 0)
 
-        #Desenha Boca
+        # Desenha Boca
         canto_boca = (self.centro_x, self.centro_y)
         labio_superior = (self.centro_x + self.raio, self.centro_y - self.raio)
         labio_inferior = (self.centro_x + self.raio, self.centro_y)
         pontos = [canto_boca, labio_superior, labio_inferior]
         pygame.draw.polygon(tela, cores.PRETO, pontos, 0)
 
-        #Desenha Olho
-        olho_x = int(self.centro_x + self.raio/3)
-        olho_y = int(self.centro_y - self.raio*0.70)
-        olho_raio = int(self.raio/10)
+        # Desenha Olho
+        olho_x = int(self.centro_x + self.raio / 3)
+        olho_y = int(self.centro_y - self.raio * 0.70)
+        olho_raio = int(self.raio / 10)
         pygame.draw.circle(tela, cores.PRETO, (olho_x, olho_y), olho_raio, 0)
 
     def processar_eventos(self, eventos):

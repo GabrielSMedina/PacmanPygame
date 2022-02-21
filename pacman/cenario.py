@@ -1,9 +1,11 @@
 import pygame
 import constantes
 import cores
+import elementos
 
 
-class Cenario:
+class Cenario(elementos.Elementos):
+
     def __init__(self, tamanho, pacman):
         self.pacman = pacman
         self.tamanho = tamanho
@@ -72,3 +74,8 @@ class Cenario:
                 if self.matriz[lin][col] == 1:
                     self.pontos += 1
                     self.matriz[lin][col] = 0
+
+    def processar_eventos(self, even):
+        for e in even:
+            if e.type == pygame.QUIT:
+                exit()
