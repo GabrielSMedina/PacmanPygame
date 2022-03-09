@@ -1,15 +1,21 @@
+import random
 import pygame
 import elementos
-import cores
 import constantes
+import cores
+import movivel
 
 pygame.init()
 
 
-class Fantasma(elementos.Elementos):
+class Fantasma(elementos.Elementos, movivel.Movivel):
     def __init__(self, cor, tamanho):
         self.coluna = 6
-        self.linha = 8
+        self.linha = 2
+        self.linha_intencao = self.linha
+        self.coluna_intencao = self.coluna
+        self.velocidade = constantes.VELOCIDADE
+        self.direcao = constantes.BAIXO
         self.tamanho = tamanho
         self.cor = cor
 
@@ -43,7 +49,29 @@ class Fantasma(elementos.Elementos):
         pygame.draw.circle(tela, cores.PRETO, (olho_d_x, olho_d_y), olho_raio_int, 0)
 
     def calcular_regras(self):
-        pass
+        if self.direcao == constantes.CIMA:
+            self.linha_intencao -= self.velocidade
+        elif self.direcao == constantes.BAIXO:
+            self.linha_intencao += self.velocidade
+        elif self.direcao == constantes.ESQUERDA:
+            self.coluna_intencao -= self.velocidade
+        elif self.direcao == constantes.DIREITA:
+            self.coluna_intencao += self.velocidade
+
+    def mudar_direcao(self, direcoes):
+        self.direcao = random.choice(direcoes)
+
+    def esquina(self, direcoes):
+        self.mudar_direcao(direcoes)
+
+    def aceitar_movimento(self):
+        self.linha = self.linha_intencao
+        self.coluna = self.coluna_intencao
+
+    def recusar_movimento(self, direcoes):
+        self.linha_intencao = self.linha
+        self.coluna_intencao = self.coluna
+        self.mudar_direcao(direcoes)
 
     def processar_eventos(self, eventos):
         pass

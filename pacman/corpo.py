@@ -1,12 +1,14 @@
-import pygame
-import constantes
-import cores
 import elementos
+import constantes
+import pygame
+import cores
+import movivel
 
 pygame.init()
 
 
-class Corpo(elementos.Elementos):
+class Corpo(elementos.Elementos, movivel.Movivel):
+
     def __init__(self, size):
         self.coluna = 1
         self.linha = 1
@@ -66,3 +68,10 @@ class Corpo(elementos.Elementos):
     def aceitar_movimento(self):
         self.linha = self.linha_intencao
         self.coluna = self.coluna_intencao
+
+    def recusar_movimento(self, direcoes):
+        self.linha_intencao = self.linha
+        self.coluna_intencao = self.coluna
+
+    def esquina(self, direcoes):
+        pass

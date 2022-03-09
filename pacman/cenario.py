@@ -1,15 +1,15 @@
-import pygame
+import elementos
 import constantes
 import cores
-import elementos
+import pygame
 
 
 class Cenario(elementos.Elementos):
 
     def __init__(self, tamanho, pacman, fan):
+        self.moviveis = [pacman, fan]
         self.pacman = pacman
         self.tamanho = tamanho
-        self.fantasma = fan
         self.pontos = 0
         self.matriz = [
             [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -67,7 +67,23 @@ class Cenario(elementos.Elementos):
         self.pintar_pontos(tela)
 
     def calcular_regras(self):
-        direcoes = self.get_direcoes(self.fantasma.linha, self.fantasma.coluna)
+        for movivel in self.moviveis:
+            lin = int(movivel.linha)
+            col = int(movivel.coluna)
+            lin_intencao = int(movivel.linha_intencao)
+            col_intencao = int(movivel.coluna_intencao)
+            direcoes = self.get_direcoes(lin, col)
+            if len(direcoes) >= 3:
+                movivel.esquina(direcoes)
+            if 0 <= col_intencao < 28 and 0 <= lin_intencao < 29 and self.matriz[lin_intencao][col_intencao] != 2:
+                movivel.aceitar_movimento()
+            else:
+                movivel.recusar_movimento(direcoes)
+
+        #CODIGO ANTIGO
+        '''direcoes = self.get_direcoes(self.fantasma.linha, self.fantasma.coluna)
+        if len(direcoes) >= 3:
+            self.fantasma.esquina(direcoes)
         col = self.pacman.coluna_intencao
         lin = self.pacman.linha_intencao
         if 0 <= col < 28 and 0 <= lin < 29:
@@ -75,17 +91,17 @@ class Cenario(elementos.Elementos):
                 self.pacman.aceitar_movimento()
                 if self.matriz[lin][col] == 1:
                     self.pontos += 1
-                    self.matriz[lin][col] = 0
+                    self.matriz[lin][col] = 0'''
 
     def get_direcoes(self, linha, coluna):
         direcoes = []
         if self.matriz[int(linha - 1)][int(coluna)] != 2:
             direcoes.append(constantes.CIMA)
-        if self.matriz[int(linha + 1)][int(coluna)]:
+        if self.matriz[int(linha + 1)][int(coluna)] != 2:
             direcoes.append(constantes.BAIXO)
-        if self.matriz[int(linha)][int(coluna - 1)]:
+        if self.matriz[int(linha)][int(coluna - 1)] != 2:
             direcoes.append(constantes.ESQUERDA)
-        if self.matriz[int(linha)][int(coluna + 1)]:
+        if self.matriz[int(linha)][int(coluna + 1)] != 2:
             direcoes.append(constantes.DIREITA)
         return direcoes
 
